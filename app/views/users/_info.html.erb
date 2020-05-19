@@ -1,0 +1,56 @@
+<% if book.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= book.errors.count %>errors prohibited this obj from being saved:</h2>
+    <ul>
+    <% book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="col-xs-3">
+    <h2>User info</h2>
+    <%= attachment_image_tag user, :profile_image, :fill, 100, 100, format: 'jpeg', class: "pull- profile-img", fallback: "no_image.jpg" %>
+    <table class="table">
+      <tr>
+        <td>name</td>
+        <td><%= user.name %></td>
+      </tr>
+      <tr>
+        <td>introduction</td>
+        <td><%= user.introduction %></td>
+      </tr>
+    </table>
+    <% if user_signed_in? && current_user.id == user.id %>
+        <%= link_to edit_user_path(user), class:"btn btn-default btn-block" do %>
+          <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+        <% end %>
+    <% else %>
+        <%= link_to "edit", user_path(current_user) %>
+    <% end %>
+  <h2>New book</h2>
+  <%= form_for(book, url: books_path) do |f| %>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group has-icon">
+          <label class="control-rabel">Title</label>
+          <br>
+          <%= f.text_field :title, class:"form-control" %>
+          <span class="fa fa-building form-control-icon" aria-hidden="true"></span>
+        </div>
+      </div>
+      <div class="col-sm-6">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <label class="control-label">Opinion</label>
+        <br>
+        <%= f.text_area :body, class:"form-control", rows:"3" %>
+      </div>
+    </div>
+    <hr>
+    <%= f.submit "Create Book", class:"btn btn-primary btn-block" %>
+  <% end %>
+</div>
